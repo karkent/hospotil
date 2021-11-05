@@ -27,7 +27,7 @@
                 <span slot="title">主页</span>
               </template>
               <el-menu-item-group>
-                <el-menu-item index="2-1">
+                <el-menu-item index="1-1">
                   <i class="el-icon-c-scale-to-original"></i>
                   <router-link to="/userMain">主页</router-link>
                 </el-menu-item>
@@ -35,13 +35,13 @@
             </el-submenu>
             <el-submenu index="2">
               <template slot="title">
-                <i class="el-icon-upload"></i>
+                <i class="el-icon-s-marketing"></i>
                 <span slot="title">医废收集</span>
               </template>
               <el-menu-item-group>
                 <el-menu-item index="2-1">
                   <i class="el-icon-c-scale-to-original"></i>
-                  <router-link to="">医废上传</router-link>
+                  <router-link to="/trashUp"><a @click="addTab(editableTabsValue,'医废收集列表')">医废收集列表</a></router-link>
                 </el-menu-item>
               </el-menu-item-group>
             </el-submenu>
@@ -65,7 +65,8 @@
               <el-menu-item-group>
                 <el-menu-item index="4-1">
                   <i class="el-icon-caret-left"></i>
-                  <router-link to="">医废入库列表</router-link></el-menu-item>
+                  <router-link to="">医废出库列表</router-link>
+                </el-menu-item>
               </el-menu-item-group>
             </el-submenu>
             <el-submenu index="5">
@@ -308,13 +309,19 @@
       </el-header>
       <el-main>
         <div style="width: 100%;height: 845px;">
-          <el-tabs v-model="editableTabsValue" type="card" :closable="false" @tab-remove="removeTab">
+          <el-tabs v-model="editableTabsValue" type="card" @tab-remove="removeTab">
+            <el-tab-pane
+              key="1"
+              label="主页"
+              name="1"
+              :closable=false >
+            </el-tab-pane>
             <el-tab-pane
               v-for="(item, index) in editableTabs"
               :key="item.name"
               :label="item.title"
               :name="item.name"
-              :closable="item.close">
+              :closable=true >
             </el-tab-pane>
           </el-tabs>
 
@@ -339,12 +346,8 @@ export default {
       // ====
       type:false,
       editableTabsValue: '1',
-      editableTabs: [{
-        title: '主页',
-        name: '1',
-        content: 'Tab 1 content',
-        closable:"closable"
-      }],
+      editableTabs: [],
+      tabsName:[],
       tabIndex: 1,
       user:{
         userName:'',
@@ -364,7 +367,7 @@ export default {
   mounted () {
     window.addEventListener("beforeunload", function(e) {
       console.log("I want to cancel");
-      e.preventDefault();P
+      e.preventDefault();
       e.returnValue = "hello";
     });
     this.user.userName = this.$route.params.userName
@@ -453,14 +456,30 @@ export default {
       this.isShow = false
       this.isCollapse = true
     },
-    addTab(targetName) {
+    addTab(editableTabsValue,data) {
+      let tabs = this.tabsName;
+      if (tabs.length<=0){
+       this.addTabs(editableTabsValue,data)
+      }
+      tabs.forEach((tab) => {
+        if (tab.name !== data) {
+          this.addTabs(editableTabsValue,data)
+          console.log("R@$RWDSSW")
+        }
+      });
+    },
+    addTabs(editableTabsValue,data){
       let newTabName = ++this.tabIndex + '';
       this.editableTabs.push({
-        title: 'New Tab',
+        title: data,
         name: newTabName,
         content: 'New Tab content'
       });
+      this.tabsName.push({
+        name:data
+      })
       this.editableTabsValue = newTabName;
+      console.log(editableTabsValue)
     },
     removeTab(targetName) {
       let tabs = this.editableTabs;
@@ -514,4 +533,7 @@ a {
 .router-link-active {
   text-decoration: none;
 }
+/*.el-tabs__nav .el-tabs__item:nth-child(1) span{*/
+/*  display: none;*/
+/*}*/
 </style>

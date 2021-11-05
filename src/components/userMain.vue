@@ -12,23 +12,15 @@
               <b>收集重量</b>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
               <b>收集人员</b>
             </div>
-            <div id="box2">
-              <div
-                id="con2"
-                ref="con2"
-                :class="{anims:animates==true}"
-                @mouseleave="mLeave2"
-                @mouseenter="mEnter2"
-              >
-                <p
-                  v-for="(data, index) in data"
-                  :key="index">
-                  <span style="margin-left: 15px;color: #828282"> {{data.time}}</span>
-                  <span style="float: right;margin-right: 220px;color: #4775d1">{{data.kg}}</span>
-                  <span style="float: right;margin-right: 15px;color: #4775d1;margin-top: -10px">{{data.uName}}</span>
-                </p>
+            <vue-seamless-scroll :data="listData" :class-option="optionHover" class="seamless-warp">
+              <div class="item">
+                <a v-for="item in listData">
+                  <span class="title" v-text="item.title" style="float: left;margin-left: 15px;color: #828282"></span>
+                  <span class="date" v-text="item.date" style="float: left;margin-left: 50px;color: #4775d1"></span>
+                  <span class="uName" v-text="item.uName" style="margin-left: 135px;color: #4775d1"></span><br>
+                </a>
               </div>
-            </div>
+            </vue-seamless-scroll>
           </div>
         </div>
       </div>
@@ -42,33 +34,29 @@
             <b>重量</b>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
             <b>收集时间</b>
           </div>
-          <div id="box">
-            <div
-              id="con1"
-              ref="con1"
-              :class="{anim:animate==true}"
-              @mouseleave="mLeave"
-              @mouseenter="mEnter">
-              <p v-for="(item, index) in items" :key="index">
-                <span style="margin-left: 15px;color: #828282"> {{item.name}}</span>
-                <span style="float: right;margin-right: 220px;color: #4775d1">{{item.kg}}</span>
-                <span style="float: right;margin-right: 15px;color: #4775d1;margin-top: -10px">{{item.uName}}</span>
-              </p>
+          <vue-seamless-scroll :data="listData2" :class-option="optionHover" class="seamless-warp2">
+            <div class="item2">
+              <a v-for="item2 in listData2">
+                <span class="title2" v-text="item2.title2" style="margin-left: 15px;color: #828282"></span>
+                <span class="date2" v-text="item2.date2" style="float: right;margin-right: 220px;color: #4775d1"></span>
+                <span class="uName2" v-text="item2.uName2" style="float: right;margin-right: 15px;color: #4775d1;margin-top: -20px"></span><br>
+              </a>
             </div>
-          </div>
+          </vue-seamless-scroll>
         </div>
       </div>
       <div style="min-width: 820px;height: auto;float: left;">
         <div id="sun" style="width: 820px;height: 650px;background-color: #dff0fb;border-radius:10px"></div>
       </div>
-      <div style="width:820px;height: 162px;margin-top: 20px;background-color: #dff0fb;border-radius:10px;float: left">
-        <div>
-          <div style="width: 150px;height: 150px;background-color: #2c3e50;margin-top: 6px;border-radius: 10px;margin-left: 10px;float: left"></div>
-          <div style="width: 150px;height: 150px;background-color: #2c3e50;margin-top: 6px;border-radius: 10px;margin-left: 12px;float: left"></div>
-          <div style="width: 150px;height: 150px;background-color: #2c3e50;margin-top: 6px;border-radius: 10px;margin-left: 12px;float: left"></div>
-          <div style="width: 150px;height: 150px;background-color: #2c3e50;margin-top: 6px;border-radius: 10px;margin-left: 12px;float: left"></div>
-          <div style="width: 150px;height: 150px;background-color: #2c3e50;margin-top: 6px;border-radius: 10px;margin-left: 12px;float: left"></div>
-        </div>
+      <div style="width:820px;height: 162px;margin-top: 20px;background-color: #dff0fb;border-radius:10px;float: left;z-index: 1">
+        <vue-seamless-scroll :data="listData" :class-option="optionHover2" class="warp">
+          <ul class="ul-item">
+            <li class="li-item" v-for="(item, index) in listData3" :key="index">
+              <a>{{ item.item3 }}</a>
+              <a>{{ item.date3 }}</a>
+            </li>
+          </ul>
+        </vue-seamless-scroll>
       </div>
     </div>
   </el-scrollbar>
@@ -77,47 +65,140 @@
 
 <script>
 import * as echarts from 'echarts'
+import vueSeamlessScroll from 'vue-seamless-scroll'
 export default {
   name: 'userMain',
+  components: {
+    vueSeamlessScroll
+  },
   data() {
     return {
       charts: "",
       opinion: ["传染性", "损伤性","病理性","化学性","药物性"],
-      animate: false,
-      items: [
-        // 消息列表对应的数组
-        {name:"眼科",kg:"15.6kg",uName:"2021-5-24 8:29:11"},
-        {name:"耳鼻喉",kg:"15.6kg",uName:"2021-5-24 8:29:11"},
-        {name:"内科",kg:"15.6kg",uName:"2021-5-24 8:29:11"},
-        {name:"外科",kg:"15.6kg",uName:"2021-5-24 8:29:11"},
-        {name:"肿瘤内科",kg:"15.6kg",uName:"2021-5-24 8:29:11"},
-        {name:"骨科",kg:"15.6kg",uName:"2021-5-24 8:29:11"},
-        {name:"血液科",kg:"15.6kg",uName:"2021-5-24 8:29:11"},
-        {name:"老年脑病科",kg:"15.6kg",uName:"2021-5-24 8:29:11"},
-        {name:"神经内科",kg:"15.6kg",uName:"2021-5-24 8:29:11"},
-        {name:"神经外科",kg:"15.6kg",uName:"2021-5-24 8:29:11"},
-        {name:"呼吸科",kg:"15.6kg",uName:"2021-5-24 8:29:11"},
-      ],
-      animates: false,
-      data: [
-        // 消息列表对应的数组
-        {time:"2021-5-24 8:29:11",kg:"15.6kg",uName:"赵子星"},
-        {time:"2021-5-24 8:29:11",kg:"15.6kg",uName:"赵子星"},
-        {time:"2021-5-24 8:29:11",kg:"15.6kg",uName:"赵子星"},
-        {time:"2021-5-24 8:29:11",kg:"15.6kg",uName:"赵子星"},
-        {time:"2021-5-24 8:29:11",kg:"15.6kg",uName:"赵子星"},
-        {time:"2021-5-24 8:29:11",kg:"15.6kg",uName:"赵子星"},
-        {time:"2021-5-24 8:29:11",kg:"15.6kg",uName:"赵子星"},
-        {time:"2021-5-24 8:29:11",kg:"15.6kg",uName:"赵子星"},
-        {time:"2021-5-24 8:29:11",kg:"15.6kg",uName:"赵子星"},
-        {time:"2021-5-24 8:29:11",kg:"15.6kg",uName:"赵子星"},
-        {time:"2021-5-24 8:29:11",kg:"15.6kg",uName:"赵子星"},
-      ]
+      listData2: [{
+        'title2': '眼科',
+        'date2': '15.6kg',
+        'uName2':"2021-5-24 8:29:11"
+      },{
+        'title2': '眼科',
+        'date2': '15.6kg',
+        'uName2':"2021-5-24 8:29:11"
+      },{
+        'title2': '眼科',
+        'date2': '15.6kg',
+        'uName2':"2021-5-24 8:29:11"
+      },{
+        'title2': '眼科',
+        'date2': '15.6kg',
+        'uName2':"2021-5-24 8:29:11"
+      },{
+        'title2': '眼科',
+        'date2': '15.6kg',
+        'uName2':"2021-5-24 8:29:11"
+      },{
+        'title2': '眼科',
+        'date2': '15.6kg',
+        'uName2':"2021-5-24 8:29:11"
+      },{
+        'title2': '眼科',
+        'date2': '15.6kg',
+        'uName2':"2021-5-24 8:29:11"
+      },],
+      listData: [{
+          'title': '2021-5-24 8:29:11',
+          'date': '15.6kg',
+          'uName':'赵子星'
+        },{
+        'title': '2021-5-24 8:29:11',
+        'date': '15.6kg',
+        'uName':'赵子星'
+      },{
+        'title': '2021-5-24 8:29:11',
+        'date': '15.6kg',
+        'uName':'赵子星'
+      },{
+        'title': '2021-5-24 8:29:11',
+        'date': '15.6kg',
+        'uName':'赵子星'
+      },{
+        'title': '2021-5-24 8:29:11',
+        'date': '15.6kg',
+        'uName':'赵子星'
+      },{
+        'title': '2021-5-24 8:29:11',
+        'date': '15.6kg',
+        'uName':'赵子星'
+      },{
+        'title': '2021-5-24 8:29:11',
+        'date': '15.6kg',
+        'uName':'赵子星'
+      },{
+        'title': '2021-5-24 8:29:11',
+        'date': '15.6kg',
+        'uName':'赵子星'
+      },{
+        'title': '2021-5-24 8:29:11',
+        'date': '15.6kg',
+        'uName':'赵子星'
+      },{
+        'title': '2021-5-24 8:29:11',
+        'date': '15.6kg',
+        'uName':'赵子星'
+      },],
+      listData3: [{
+        'item3': '1-------------------------',
+        'date3': '2017-12-16'
+      },{
+        'item3': '2-------------------------',
+        'date3': '2017-12-16'
+      },{
+        'item3': '3-------------------------',
+        'date3': '2017-12-16'
+      },{
+        'item3': '4-------------------------',
+        'date3': '2017-12-16'
+      },{
+        'item3': '5-------------------------',
+        'date3': '2017-12-16'
+      },{
+        'item3': '6-------------------------',
+        'date3': '2017-12-16'
+      },{
+        'item3': '7-------------------------',
+        'date3': '2017-12-16'
+      },{
+        'item3': '8-------------------------',
+        'date3': '2017-12-16'
+      }]
+    }
+  },
+  computed: {
+    optionHover () {
+      return {
+        step: 0.755, // 数值越大速度滚动越快
+        limitMoveNum: 0, // 开始无缝滚动的数据量 this.dataList.length
+        hoverStop: true, // 是否开启鼠标悬停stop
+        direction: 1, // 0向下 1向上 2向左 3向右
+        openWatch: true, // 开启数据实时监控刷新dom
+        singleHeight: 0, // 单步运动停止的高度(默认值0是无缝不停止的滚动) direction => 0/1
+        singleWidth: 0, // 单步运动停止的宽度(默认值0是无缝不停止的滚动) direction => 2/3
+        waitTime: 1000,// 单步运动停止的时间(默认值1000ms)
+      }
+    },
+    optionHover2 () {
+      return {
+        step: 2, // 数值越大速度滚动越快
+        limitMoveNum: 2, // 开始无缝滚动的数据量 this.dataList.length
+        hoverStop: true, // 是否开启鼠标悬停stop
+        direction: 2, // 0向下 1向上 2向左 3向右
+        openWatch: true, // 开启数据实时监控刷新dom
+        singleHeight: 0, // 单步运动停止的高度(默认值0是无缝不停止的滚动) direction => 0/1
+        singleWidth: 0, // 单步运动停止的宽度(默认值0是无缝不停止的滚动) direction => 2/3
+        waitTime: 1000,// 单步运动停止的时间(默认值1000ms)
+      }
     }
   },
   mounted () {
-    this.timer1 = setInterval(this.scroll, 2000)
-    this.timer2 = setInterval(this.scrolls, 2500)
     const myChart1 = echarts.init(document.getElementById('histogram'))
     myChart1.setOption({
       grid:{
@@ -411,85 +492,48 @@ export default {
 
   },
   methods: {
-    scroll () {
-      const con1 = this.$refs.con1
-      con1.style.marginTop = '-26px'
-      this.animate = !this.animate
-      //   在异步函数中会出现this的偏移问题，此处一定要先保存好this的指向
-      setTimeout(() => {
-        this.items.push(this.items[0])
-        this.items.shift()
-        con1.style.marginTop = '20px'
-        this.animate = !this.animate
-        //   这个地方如果不把animate取反会出现消息回滚的现象，此时把ul元素的过渡属性取消掉就可以完美实现无缝滚动的效果了
-      }, 200)
-    },
-    mEnter () {
-      clearInterval(this.timer1)
-    },
-    mLeave () {
-      this.timer1 = setInterval(this.scroll, 1000)
-    },
-    scrolls () {
-      const con2 = this.$refs.con2
-      con2.style.marginTop = '-26px'
-      this.animates = !this.animates
-      //   在异步函数中会出现this的偏移问题，此处一定要先保存好this的指向
-      setTimeout(() => {
-        this.data.push(this.data[0])
-        this.data.shift()
-        con2.style.marginTop = '0px'
-        this.animates = !this.animates
-        //   这个地方如果不把animates取反会出现消息回滚的现象，此时把ul元素的过渡属性取消掉就可以完美实现无缝滚动的效果了
-      }, 200)
-    },
-    mEnter2 () {
-      clearInterval(this.timer2)
-    },
-    mLeave2 () {
-      this.timer2 = setInterval(this.scrolls, 1000)
-    }
   }
 }
 </script>
 
-<style scoped>
+<style>
 /* // 去掉滚动条的默认样式 */
-::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-}
-#box {
-  width: 450px;
+.seamless-warp {
+  width: 100%;
   height: 112px;
-  line-height: 10px;
   overflow: hidden;
-/*//border: 1px solid red;*/
-  transition: all 0.4s;
 }
-.anim {
-  transition: all 0.4s;
-}
-#con1 li {
-  list-style: none;
-  height: 20px;
-  line-height: 20px;
-}
-/* // 去掉滚动条的默认样式 */
-#box2 {
-  width: 450px;
+.seamless-warp2 {
+  width: 100%;
   height: 112px;
-  line-height: 10px;
   overflow: hidden;
-  /*//border: 1px solid red;*/
-  transition: all 0.4s;
 }
-.anims {
-  transition: all 0.4s;
-}
-#con2 li {
-  list-style: none;
-  height: 20px;
-  line-height: 20px;
+</style>
+<style lang="scss" scoped>
+.warp {
+  width: 820PX;
+  height: 150px;
+  //margin: 0 auto;
+  overflow: hidden;
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+    &.ul-item {
+      display: flex;
+      .li-item {
+        width: 140px;
+        height: 140px;
+        margin-right: 10px;
+        line-height: 120px;
+        background-color: #999;
+        color: #fff;
+        text-align: center;
+        font-size: 15px;
+        margin-top: 12px;
+        border-radius: 10px;
+      }
+    }
+  }
 }
 </style>

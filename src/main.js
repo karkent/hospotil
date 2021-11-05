@@ -9,6 +9,8 @@ import ElementUI from 'element-ui'
 import qs from 'qs'
 import '../src/css/myCss.css'
 import * as echarts from 'echarts'
+import Blob from '../src/components/TrashUp/out/Blob.js'
+import Export2Excel from '../src/components/TrashUp/out/Export2Excel.js'
 // import store from "./store"
 
 Vue.prototype.$qs = qs
