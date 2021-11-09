@@ -41,7 +41,7 @@
               <el-menu-item-group>
                 <el-menu-item index="2-1">
                   <i class="el-icon-c-scale-to-original"></i>
-                  <router-link to="/trashUp"><a @click="addTab(editableTabsValue,'医废收集列表')">医废收集列表</a></router-link>
+                  <router-link to="/trashUp"><a @click="addTab(editableTabsValue,'医废收集列表','trashUp')">医废收集列表</a></router-link>
                 </el-menu-item>
               </el-menu-item-group>
             </el-submenu>
@@ -53,7 +53,7 @@
               <el-menu-item-group>
                 <el-menu-item index="3-1">
                   <i class="el-icon-caret-right"></i>
-                  <router-link to="">医废入库列表</router-link>
+                  <router-link to="/trashIn"><a @click="addTab(editableTabsValue,'医废入库列表','trashIn')">医废入库列表</a></router-link>
                 </el-menu-item>
               </el-menu-item-group>
             </el-submenu>
@@ -309,22 +309,25 @@
       </el-header>
       <el-main>
         <div style="width: 100%;height: 845px;">
-          <el-tabs v-model="editableTabsValue" type="card" @tab-remove="removeTab">
+
+          <el-tabs v-model="editableTabsValue" type="card"  @tab-remove="removeTab"  @tab-click="cilckTab">
+
             <el-tab-pane
-              key="1"
+              key="主页"
               label="主页"
-              name="1"
-              :closable=false >
+              name="userMain"
+              :closable=false>
             </el-tab-pane>
+
             <el-tab-pane
               v-for="(item, index) in editableTabs"
               :key="item.name"
               :label="item.title"
-              :name="item.name"
-              :closable=true >
+              :name="item.content"
+              :closable=true
+            >
             </el-tab-pane>
           </el-tabs>
-
              <router-view></router-view>
         </div>
       </el-main>
@@ -334,7 +337,7 @@
 
 <script>
 export default {
-  name: 'LogIn',
+  name: 'TrashMainV',
   data() {
     return {
       //websocket
@@ -347,8 +350,9 @@ export default {
       type:false,
       editableTabsValue: '1',
       editableTabs: [],
-      tabsName:[],
       tabIndex: 1,
+      tabsName:[],
+      tabRou:"",
       user:{
         userName:'',
         userAcc:'',
@@ -456,24 +460,24 @@ export default {
       this.isShow = false
       this.isCollapse = true
     },
-    addTab(editableTabsValue,data) {
+    addTab(editableTabsValue,data,rout) {
       let tabs = this.tabsName;
       if (tabs.length<=0){
-       this.addTabs(editableTabsValue,data)
+       this.addTabs(editableTabsValue,data,rout)
       }
       tabs.forEach((tab) => {
         if (tab.name !== data) {
-          this.addTabs(editableTabsValue,data)
+          this.addTabs(editableTabsValue,data,rout)
           console.log("R@$RWDSSW")
         }
       });
     },
-    addTabs(editableTabsValue,data){
+    addTabs(editableTabsValue,data,rout){
       let newTabName = ++this.tabIndex + '';
       this.editableTabs.push({
         title: data,
         name: newTabName,
-        content: 'New Tab content'
+        content: rout
       });
       this.tabsName.push({
         name:data
@@ -481,7 +485,9 @@ export default {
       this.editableTabsValue = newTabName;
       console.log(editableTabsValue)
     },
+
     removeTab(targetName) {
+      console.log(targetName)
       let tabs = this.editableTabs;
       let activeName = this.editableTabsValue;
       if (activeName === targetName) {
@@ -490,13 +496,36 @@ export default {
             let nextTab = tabs[index + 1] || tabs[index - 1];
             if (nextTab) {
               activeName = nextTab.name;
+              this.tabRout(nextTab.content)
             }
           }
         });
       }
       this.editableTabsValue = activeName;
       this.editableTabs = tabs.filter(tab => tab.name !== targetName);
+      this.tabIndex = targetName-1
+      console.log(this.tabIndex)
+      console.log(this.editableTabsValue)
+      if (this.tabIndex == 1){
+        this.$router.push({
+          name: 'userMain',
+          params: {}
+        })
+      }
     },
+    tabRout(value){
+      this.$router.push({
+        name: value,
+        params: {}
+      })
+    },
+    cilckTab (tab, event){
+      if (this.tabRou !== tab.name){
+        console.log(tab.name)
+        this.tabRout(tab.name)
+        this.tabRou = tab.name
+      }
+    }
   },
 }
 </script>

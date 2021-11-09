@@ -45,14 +45,17 @@
           </vue-seamless-scroll>
         </div>
       </div>
-      <div style="min-width: 820px;height: auto;float: left;">
-        <div id="sun" style="width: 820px;height: 650px;background-color: #dff0fb;border-radius:10px"></div>
+      <div style="min-width: 820px;height: 650px;float: left;">
+        <div id="sun" style="width: 820px;height: 300px;background-color: #dff0fb;border-radius:10px"></div>
+        <div  style="width: 820px;height: 300px;background-color: #dff0fb;border-radius:10px;margin-top: 20px">
+          <img src="../assets/dingw.png" style="width: 810px;height: 290px;border-radius:10px;margin-left: 5px;margin-top: 5px">
+        </div>
       </div>
       <div style="width:820px;height: 162px;margin-top: 20px;background-color: #dff0fb;border-radius:10px;float: left;z-index: 1">
         <vue-seamless-scroll :data="listData" :class-option="optionHover2" class="warp">
           <ul class="ul-item">
             <li class="li-item" v-for="(item, index) in listData3" :key="index">
-              <a>{{ item.item3 }}</a>
+              <a style="float: left;margin-top: -45px">&ensp;{{ item.item3 }}</a>
               <a>{{ item.date3 }}</a>
             </li>
           </ul>
@@ -146,28 +149,28 @@ export default {
         'uName':'赵子星'
       },],
       listData3: [{
-        'item3': '1-------------------------',
+        'item3': '眼科',
         'date3': '2017-12-16'
       },{
-        'item3': '2-------------------------',
+        'item3': '眼科',
         'date3': '2017-12-16'
       },{
-        'item3': '3-------------------------',
+        'item3': '眼科',
         'date3': '2017-12-16'
       },{
-        'item3': '4-------------------------',
+        'item3': '眼科',
         'date3': '2017-12-16'
       },{
-        'item3': '5-------------------------',
+        'item3': '眼科',
         'date3': '2017-12-16'
       },{
-        'item3': '6-------------------------',
+        'item3': '眼科',
         'date3': '2017-12-16'
       },{
-        'item3': '7-------------------------',
+        'item3': '眼科',
         'date3': '2017-12-16'
       },{
-        'item3': '8-------------------------',
+        'item3': '眼科',
         'date3': '2017-12-16'
       }]
     }
@@ -175,25 +178,25 @@ export default {
   computed: {
     optionHover () {
       return {
-        step: 0.755, // 数值越大速度滚动越快
+        step: 1, // 数值越大速度滚动越快
         limitMoveNum: 0, // 开始无缝滚动的数据量 this.dataList.length
         hoverStop: true, // 是否开启鼠标悬停stop
         direction: 1, // 0向下 1向上 2向左 3向右
         openWatch: true, // 开启数据实时监控刷新dom
-        singleHeight: 0, // 单步运动停止的高度(默认值0是无缝不停止的滚动) direction => 0/1
+        singleHeight: 21, // 单步运动停止的高度(默认值0是无缝不停止的滚动) direction => 0/1
         singleWidth: 0, // 单步运动停止的宽度(默认值0是无缝不停止的滚动) direction => 2/3
         waitTime: 1000,// 单步运动停止的时间(默认值1000ms)
       }
     },
     optionHover2 () {
       return {
-        step: 2, // 数值越大速度滚动越快
+        step: 1, // 数值越大速度滚动越快
         limitMoveNum: 2, // 开始无缝滚动的数据量 this.dataList.length
         hoverStop: true, // 是否开启鼠标悬停stop
         direction: 2, // 0向下 1向上 2向左 3向右
         openWatch: true, // 开启数据实时监控刷新dom
         singleHeight: 0, // 单步运动停止的高度(默认值0是无缝不停止的滚动) direction => 0/1
-        singleWidth: 0, // 单步运动停止的宽度(默认值0是无缝不停止的滚动) direction => 2/3
+        singleWidth: 150, // 单步运动停止的宽度(默认值0是无缝不停止的滚动) direction => 2/3
         waitTime: 1000,// 单步运动停止的时间(默认值1000ms)
       }
     }
@@ -526,7 +529,7 @@ export default {
         height: 140px;
         margin-right: 10px;
         line-height: 120px;
-        background-color: #999;
+        background-color: #2c8ff1;
         color: #fff;
         text-align: center;
         font-size: 15px;

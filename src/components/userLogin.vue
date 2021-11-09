@@ -163,22 +163,30 @@ export default {
     //接收到消息的回调方法
     var that = this;
     this.websocket.onmessage = function(event) {
-      console.log(event.data+"---")
       var msg = event.data.slice(0,2)
+
       if (msg === "id"){
+
         var myid = event.data.substr(2)
         that.loginForm.userId = myid
         console.log(that.loginForm.userId)
-      }else if (msg ==="失败"){
+
+      }
+      else if (msg ==="失败"){
+
         console.log("关闭连接")
-      }else if (msg ==="警告"){
+      }
+      else if (msg ==="警告"){
+
         var elseId = event.data.substr(2)
         console.log("你已重复登入"+elseId)
         that.$confirm('你已经登入了该账号！请联系管理员修改密码', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
+
         }).then(() => {
+
           that.$message({
             type: 'success',
             message: '正在强制登入',
@@ -186,16 +194,22 @@ export default {
           });
           var socketMsg = { loginType:"强制登入", msg: that.loginForm.username, fromUser: that.loginForm.userId, toUser:elseId };
           that.websocket.send(JSON.stringify(socketMsg));
+
         }).catch(() => {
+
           that.$message({
             type: 'info',
             message: '已取消',
             showClose: true
           });
+
         });
       }else if (msg ==="成功"){
+
         if(that.loginForm.checkType === true){
-          var socketMsg = { loginType:"退出", msg: that.loginForm.username, fromUser: that.loginForm.userId };
+
+          var socketMsg = {
+            loginType:"退出", msg: that.loginForm.username, fromUser: that.loginForm.userId };
           that.websocket.send(JSON.stringify(socketMsg));
           that.$router.push({
             name: 'userMain',
@@ -212,7 +226,7 @@ export default {
         if (that.loginForm.userId === event.data.substr(2)) {
           that.websocket.close();
           that.$router.push({
-            name: 'userLogin',
+            name: 'TrashMainV',
             params:{}
           })
         }
